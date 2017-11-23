@@ -4,7 +4,7 @@
 livereload:
   port: 4000
 # Site
-title: Alan's Blog # your blog title name
+title: Alan # your blog title name
 subtitle:  
 author: Alan # 作者
 language: 
