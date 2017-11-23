@@ -68,4 +68,29 @@ nexus /run
 - http://localhost:8081/repository/npm-group/
 
 ## 测试下载依赖包
+1. 切换npm的registry。可以运行一下命令。记住是**npm-group** 这个地址。
+```
+npm config set registry http://localhost:8081/repository/npm-group/
+```
 
+  同样的，我们也可以打开一下这个文件修改设置
+```
+C:\Users\你的用户名\.npmrc
+```
+  推荐设置（**可以解决phantomjs和chromedriver无法下载的问题**）。直接把一下拷贝进.npmrc文件即可
+  ```
+  loglevel=info
+  scripts-prepend-node-path=true
+  registry=http://192.168.1.26:8081/repository/npm-group/
+  chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+  phantomjs_cdnurl=http://cnpmjs.org/downloads
+  sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+  ```
+2. 设置完之后，我们可以随便下载一个依赖，看是否是经过nexus下载的。
+  ```
+  npm install -g generator-vuejs
+  ```
+  可以看到的确是走npm-group仓库的。
+  ![测试](http://owrfhrwdi.bkt.clouddn.com/VZWA5%25L9U2%250X%29I$1%7BV%5DHSL.png)
+  这时候去nexus库查看，可以看到，nexus把从淘宝下载的镜像都缓存在本地了。
+  ![缓存](http://owrfhrwdi.bkt.clouddn.com/4RVO~K5PROHTXU%7B$125@_YE.png)

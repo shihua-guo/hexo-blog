@@ -1,7 +1,8 @@
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
-
+livereload:
+  port: 4000
 # Site
 title: Alan's Blog # your blog title name
 subtitle:  
