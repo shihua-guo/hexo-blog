@@ -38,13 +38,13 @@ nexus /run
 - nexus增加了许多仓库类型，下面我们只关注和**npm**相关的
 ![仓库类型](http://owrfhrwdi.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720171114001609.png)
 
-#### 下面说下这几种类型的区别
+### 下面说下这几种类型的区别
 - **hosted** 为私有的仓库，我们在本地写好的npm插件就是发布到这个地方的。这个就是我们搭建私有仓库的目的。
 - **proxy** 为代理的镜像地址（我们一般设置为淘宝镜像即可），大概可以理解为，nexus帮我们从这个地址下载其他的npm依赖包。而且会自动缓存到nexus仓库。
 - **group** 用于私有仓库和代理仓库的组合。就是我们可以从**group**下载到私有的依赖（存放在nexus仓库的）和npm官网的依赖。
 > 需要注意的是，**hosted**仅用于发布你的私有依赖，所以，如果你从**hosted**下载依赖是无法下载的。下载只能通过**group**下载。
 
-#### 下面开始建立仓库
+### 下面开始建立仓库
 1. 创建代理仓库（npm-proxy）
 ![代理仓库](http://owrfhrwdi.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720171123001544.png)
 > - name为**"npm-proxy"**
@@ -67,6 +67,13 @@ nexus /run
 - http://localhost:8081/repository/npm-hosted/
 - http://localhost:8081/repository/npm-group/
 
+### 创建用户
+> 之后我们发布需要这个用户登录
+
+![创建用户](http://owrfhrwdi.bkt.clouddn.com/U4WTM%25W%7BSWM68C3IFF%7DF%60QP.png)
+同时把**npm Bearer Token Realm**置于active
+![创建用户](http://owrfhrwdi.bkt.clouddn.com/M_6BNS%60OHOFCU_HSUURX%28W0.png)
+
 ## 测试下载依赖包
 1. 切换npm的registry。可以运行一下命令。记住是**npm-group** 这个地址。
 ```
@@ -77,11 +84,11 @@ npm config set registry http://localhost:8081/repository/npm-group/
 ```
 C:\Users\你的用户名\.npmrc
 ```
-  推荐设置（**可以解决phantomjs和chromedriver无法下载的问题**）。直接把一下拷贝进.npmrc文件即可
+  推荐设置（**可以解决phantomjs、chromedriver、node-sass无法下载的问题**）。直接把一下拷贝进.npmrc文件即可
   ```
   loglevel=info
   scripts-prepend-node-path=true
-  registry=http://192.168.1.26:8081/repository/npm-group/
+  registry=http://localhost:8081/repository/npm-group/
   chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
   phantomjs_cdnurl=http://cnpmjs.org/downloads
   sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
@@ -94,3 +101,24 @@ C:\Users\你的用户名\.npmrc
   ![测试](http://owrfhrwdi.bkt.clouddn.com/VZWA5%25L9U2%250X%29I$1%7BV%5DHSL.png)
   这时候去nexus库查看，可以看到，nexus把从淘宝下载的镜像都缓存在本地了。
   ![缓存](http://owrfhrwdi.bkt.clouddn.com/4RVO~K5PROHTXU%7B$125@_YE.png)
+
+## 测试发布
+1. 切换成**npm-hosted** 的地址
+  ```
+  npm config set registry http://localhost:8081/repository/npm-hosted
+  ```
+2. 登录，运行以下命令，然后输入刚刚创建的用户名和密码即可
+  ```
+  npm adduser 
+  ```
+
+  ![登录](http://owrfhrwdi.bkt.clouddn.com/TSK0$V7J3H_F_L6LBO32YLL.png)
+
+3. 找一个需要发布的依赖，在根目录运行以下命令，设置registry为npm-hosted，并发布
+  ```
+  npm publish
+  ```
+  200即为发布成功
+  ![登录](http://owrfhrwdi.bkt.clouddn.com/MUYXX3X%5B9JMD4F$~EM4P%28$1.png)
+  去nexus仓库可以看到刚刚发布的依赖包
+  ![登录](http://owrfhrwdi.bkt.clouddn.com/N%5DT%29Q4$%7B%5DZ0%28WF%28%25OE%7BR%257U.png)
