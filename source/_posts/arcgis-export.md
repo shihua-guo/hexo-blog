@@ -47,3 +47,7 @@ tags:
 ### 截图保存
   > 有了这个想法，我就查了，并且查到相关的：[arcgis api for js入门开发系列二十打印地图的那些事](https://www.jianshu.com/p/e7b82caa12b5)。非常感谢！
 
+主要步骤如下：
+1. 将图层元素转化为canvas，再将canvas下载。这里需要用到html2canvas。
+
+
