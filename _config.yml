@@ -13,7 +13,7 @@ timezone:
 # custom Site settings
 # more detail check out docs
 SEOTitle: Alan's blog 
-header-img: http://owrfhrwdi.bkt.clouddn.com/4ba970cabe2ce37d76ee6e28f2a37551.jpg
+header-img: /img/header/1.jpg
 email: shihua-guo@hotmail.com
 description: "alan's blog"
 keyword: # seo key words
@@ -63,7 +63,7 @@ ga_domain:
 # Sidebar settings
 sidebar: true
 sidebar-about-description: "I am Alan"
-sidebar-avatar:      # use absolute URL
+sidebar-avatar: "/img/header/0.jpg"     # use absolute URL
 
 
 # Featured Tags
@@ -149,7 +149,7 @@ clip-avatar: "?imageView2/2/w/300/h/300/interlace/1/q/90"
 clip-home-post-bg: "?imageView2/1/w/800/h/300/interlace/1/q/70"
 
 # post default images
-post-default-img:  //owrfhrwdi.bkt.clouddn.com/f8ed7dd98d1001e90927cf31ba0e7bec54e79792.jpg #博文默认的图片
+post-default-img:  /img/header/2.jpg #博文默认的图片
 post-default-img-mobile: #移动端显示的图片
 
 # search api , set your custom key

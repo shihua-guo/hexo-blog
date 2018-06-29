@@ -19,7 +19,7 @@ tags:
 ### 使用PrintTask
 使用PrintTask比较简单，官网也有例子。主要步骤如下：
 1. var printTask = new PrintTask(url);
-  > 这里的url放的是这个工具的服务地址。arcgis官网的是：http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task
+  > 这里的url放的是这个工具的服务地址。[arcgis官网的工具地址](http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task)。
   如果本地有arcserver，那么本地的地址可以到arcgisserver 后台管理查看,进入后台管理后，点击左边的 **Utilities** 然后看到 **PrintingTools** 就是了。
 
   ![后台管理查看](/img/arcgis-export/1.png)
@@ -41,7 +41,7 @@ tags:
 2. 导出的分辨率低，而且不能识别某些图层。比如我使用featureSet构建的图层。
 
 以上，PrintingTools导出的速度基本就判死刑了。经我们公司的arcgis人员使用arcserver导出也是非常慢。原因不得而知，cpu/内存占用几乎没变化，并且导出会提示内存不足，但是内存十分充足。
->所以在这里请教一下大家，是因为gpu的问题吗？服务器并没有显卡。所以，我今天选择了第二种方法：截图。
+>所以在这里请教一下大家，服务器并没有显卡,是因为gpu的问题吗，才导出这么慢吗？所以，我今天选择了第二种方法：截图。
 
 
 ### 截图保存
@@ -51,7 +51,7 @@ tags:
 1. 获取到地图的容器->将图层元素转化为canvas->下载。
   > 这里需要用到[html2canvas](https://github.com/niklasvh/html2canvas)。
   
-  实现很简单，代码如下，(完全从上面的简书搬过来的),我重点是解决后面遇到的问题：
+  实现很简单，代码如下，(完全从上面的简书搬过来的),我重点是解决上面简书并没有提及的一些问题：
 
   ```javascript
     canvasPrint=function () {
@@ -89,7 +89,7 @@ tags:
   ```
 
 2. 会出现以下问题
-  1. **图层会和底图出现偏移**，如图：
+  1. 问题1：**图层会和底图出现偏移**，如图：
     ![偏移](/img/arcgis-export/2.png)
 
     为什么会出现偏移呢？ **因为html2canvas转化成canvas的时候并[不支持transform](https://github.com/niklasvh/html2canvas/issues/220)**
@@ -124,7 +124,7 @@ tags:
         });
         ```
       3. 这时候，就可以看到transform都变为0了。就可以放心导出了。
-  2. 当文件过大，下载的时候会出现。**失败,网络错误的提示**。
+  2. 问题2：当文件过大，下载的时候会出现。**失败,网络错误的提示**。
     > 这里有一个[相关答案](https://stackoverflow.com/questions/37135417/download-canvas-as-png-in-fabric-js-giving-network-error/)
     
     这时候不用担心，不是代码有问题，也不是html2canvas问题。上面，我们是用base64来进行下载的，而谷歌浏览器限制了donwload属性的a标签url长度。**这时候我们可以将html2canvas转化为blob，再使用一个插件： [FileSaver](https://github.com/eligrey/FileSaver.js/)进行下载** ，代码如下，只需要在返回canvas的代码块中修改一下就可以了：
@@ -156,7 +156,7 @@ tags:
       });
     }
     ```
-  3. **无法导出featureLayer的图层**。如图，我们需要出现的房子并没有出现：
+  3. 问题3：**无法导出featureLayer的图层**。如图，我们需要出现的房子并没有出现：
     ![1](/img/arcgis-export/8.png)
     为什么呢？我们再来看看各个图层在dom是如何构成：
     ![1](/img/arcgis-export/9.png)
@@ -267,8 +267,11 @@ tags:
       ```
 
     以上，就能解决了。
-  4. 使用瓦片服务，会出现跨域问题。地图会空白,如图，左边为需要的效果，右边为实际效果。
+  4. 问题4：使用瓦片服务，会出现跨域问题。地图会空白,如图，左边为需要的效果，右边为实际效果。
     ![试试](/img/arcgis-export/12.png)
 
     一般都会有代理软件吧，所以其实只要把瓦片服务代理一下就可以了。用Apache或者Nginx等都可以。
+
+  ### 总结
+  总的来说，如果用“截图”的方式导出。需要使用html2canvas插件，然后再解决偏移、下载、要素图层无法渲染的问题即可。
 
