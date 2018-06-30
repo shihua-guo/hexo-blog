@@ -267,6 +267,40 @@ tags:
       ```
 
     以上，就能解决了。
+  5. 问题5：如何在地图放大之后，导出包括视野范围外的整张地图。大致步骤：导出前修改dom的宽度和高度->触发地图更新->导出
+    导出前进行对地图dom的width和height进行调整。
+    明确一下：每一次对地图的zoom，width和height都会*2，所以计算每次zoom是2的（zoom差值的次方）。
+    ```JavaScript
+    /* 
+    zoomOrigin(原始放大级别),zoomChange(当前放大级别)
+    widthOrigin(原始放宽度)
+    heightOrigin(原始高度)
+    关系如下：
+    width = widthOrigin * Math.pow(2,(zoomOrigin-zoomChange))
+    height = heightOrigin * Math.pow(2,(zoomOrigin-zoomChange))
+     */
+    var zoomOrigin;
+    ...
+    var zoomChange = this.map.getZoom();
+    var dom = document.getElementById("viewDiv");
+    dom.style.width = dom.style.width * Math.pow(2,(zoomOrigin-zoomChange))
+    dom.style.width = dom.style.width * Math.pow(2,(zoomOrigin-zoomChange))
+    /* dom发生变化之后地图会自动进行调整，这里由于宽度和高度是向右下扩展的，
+      所以，我们需要重新定位中心点，这里需要监听map的更新完成事件，再进行中心点调整 */
+    ...
+    var center;/* 原来记录好的中心点*/
+    var updateEvent = this.map.on("update-end",function(event){
+      this.map = new EsriMap("viewDiv", {
+          center: center,
+          zoom: zoomChange,
+      });
+      updateEvent.remove();/* 移除事件监听 */
+    })
+    ...
+    //之后进行导出即可
+    
+    ```
+
   4. 问题4：使用瓦片服务，会出现跨域问题。地图会空白,如图，左边为需要的效果，右边为实际效果。
     ![试试](/img/arcgis-export/12.png)
 
