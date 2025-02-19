@@ -1,7 +1,8 @@
 ---
-title: arcgis绘制功能
+title: 【前端】arcgis绘制功能
 date: 2018-06-28 19:47:59
-tags:
+categories: 前端
+tags: arcgis
 ---
 ## arcgis绘制功能
 > 基于api 3.24

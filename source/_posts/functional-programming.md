@@ -1,7 +1,8 @@
 ---
-title: functional programming
+title: 【编程思想】functional programming
 date: 2018-03-26 22:02:21
-tags:
+categories: 编程思想
+tags: 函数式编程
 ---
 # Functional Programming 
 > 仅仅是一篇观后感

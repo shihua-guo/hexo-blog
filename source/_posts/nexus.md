@@ -1,7 +1,8 @@
 ---
-title: 使用nexus建立个人npm库
+title: 【后端】使用nexus建立个人npm库
 date: 2017-11-13 23:05:04
-tags:
+categories: 后端
+tags: 
 ---
 下面分享一下如何使用nexus建立自己的npm仓库
 ## 准备工作

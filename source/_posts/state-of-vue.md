@@ -1,7 +1,8 @@
 ---
-title: 用状态驱动应用
+title: 【vue】用状态驱动应用
 date: 2017-10-28 23:27:08
-tags:
+categories: 前端
+tags: vue
 ---
 ## 状态的必要性
 ------
