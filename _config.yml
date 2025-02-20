@@ -134,11 +134,11 @@ theme: 3-hexo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-# deploy:
-#   type: git
-#   repo: git@github.com:shihua-guo/hexo-blog.git
-#   branch: master
-#   message: "Site update: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+deploy:
+  type: git
+  repo: git@github.com:shihua-guo/shihua-guo.github.io.git
+  branch: master
+  message: "Site update: {{ now('YYYY-MM-DD HH:mm:ss') }}"
 
 
 # img CDN path
